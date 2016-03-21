@@ -9,21 +9,37 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
     private boolean turnX = true;
     private boolean gameWon = false;
+    private int turns = 0;
+    private int xWins = 0;
+    private int oWins = 0;
     private int gameField[][] = new int[3][3];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        openFile();
+        updateScore();
+
     }
 
     public void btnClick(View view) {
         if(gameWon) return;
+        //no more empty spots
+        if(turns == 9) {
+            Toast.makeText(this, "No winner! Please reset game.", Toast.LENGTH_LONG).show();
+        }
 
         ImageButton clickedBtn = (ImageButton) view;
         String btnCord = view.getTag().toString();
@@ -47,27 +63,37 @@ public class MainActivity extends AppCompatActivity {
 
         if(turnX) {
             clickedBtn.setImageResource(R.drawable.x);
-
         }
         else {
             clickedBtn.setImageResource(R.drawable.o);
         }
+        turns++; //update turns
 
         int win = checkWin();
         if(win == 1) {
-            if(turnX)
+            if(turnX) {
                 Toast.makeText(
                         this,
                         "X wins!!",
                         Toast.LENGTH_LONG
                 ).show();
-            else
+                xWins++;
+            }
+            else {
                 Toast.makeText(
                         this,
                         "O wins!!",
                         Toast.LENGTH_LONG
                 ).show();
+                oWins++;
+            }
+            updateScore(); //updates winner score
             gameWon = true;
+        }
+
+        if(turns == 9) {
+            Toast.makeText(this, "No winner! Please reset game.", Toast.LENGTH_LONG).show();
+            return;
         }
 
         turnX = !turnX;
@@ -88,12 +114,22 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             //checks who's turn it is and marks it
-            if(turnX)
+            if(turnX) {
                 gameField[x][y] = markerX;
-            else
+            }
+            else {
                 gameField[x][y] = markerO;
+            }
         }
         return 1; //successful
+    }
+
+    //updates score box
+    public void updateScore() {
+        TextView winText = (TextView) findViewById(R.id.xScore);
+        winText.setText("X score: " + xWins);
+        winText = (TextView) findViewById(R.id.oScore);
+        winText.setText("O Score: " + oWins);
     }
 
     //checks if player has won
@@ -131,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void newGame(View view) {
         turnX = true;
+        turns = 0;
         gameWon = false;
         gameField = new int[3][3];
         clearGameField();
@@ -151,4 +188,41 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //opens the file for scores
+    public void openFile() {
+        Scanner scan;
+        try {
+            //opens the file
+            scan = new Scanner(openFileInput("score.txt"));
+
+            //reads scores
+            if(scan.hasNextInt())
+                xWins = scan.nextInt();
+            if(scan.hasNextInt())
+                oWins = scan.nextInt();
+        } catch (IOException ioe) {
+            Log.d("File", "Could not read");
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        PrintStream ps;
+        try {
+            ps = new PrintStream(openFileOutput("score.txt", MODE_PRIVATE));
+            ps.println(xWins);
+            ps.print(oWins);
+            ps.close();
+        } catch(IOException ioe) {
+            Log.d("File", "Invalid file");
+        }
+    }
+
+    //resets the score
+    public void resetScore(View view) {
+        xWins = 0;
+        oWins = 0;
+        updateScore();
+    }
 }

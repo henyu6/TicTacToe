@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.henry.tictactoe.MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Score"
+        android:textSize="40sp"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/scoreText"
+        android:textColor="@android:color/holo_blue_light"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="X wins: 0"
+        android:textSize="30sp"
+        android:layout_below="@+id/scoreText"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/xScore"
+        android:textColor="@android:color/holo_red_light"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="O wins: 0"
+        android:textSize="30sp"
+        android:layout_below="@id/xScore"
+        android:id="@+id/oScore"
+        android:textColor="@android:color/holo_green_light"/>
+
+    <Button
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="new game"
+        android:onClick="newGame"
+        android:id="@+id/newGameBtn"
+        android:padding="20dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="reset score"
+        android:layout_alignParentRight="true"
+        android:padding="20dp"
+        android:layout_below="@+id/newGameBtn"
+        android:onClick="resetScore"/>
+
+    <TableLayout
+        android:id="@+id/table"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="351dp"
+        android:layout_height="351dp">
+        <TableRow>
+            <ImageButton
+                android:tag="0,0"
+                android:layout_weight="1"
+                android:layout_width="117dp"
+                android:layout_height="117dp"
+                android:onClick="btnClick"
+                android:scaleType="fitCenter"/>
+            <ImageButton
+                android:tag="0,1"
+                android:layout_weight="1"
+                android:layout_width="117dp"
+                android:layout_height="117dp"
+                android:onClick="btnClick"
+                android:scaleType="fitCenter"/>
+            <ImageButton
+                android:tag="0,2"
+                android:layout_weight="1"
+                android:layout_width="117dp"
+                android:layout_height="117dp"
+                android:onClick="btnClick"
+                android:scaleType="fitCenter"/>
+        </TableRow>
+        <TableRow
+            android:layout_weight="1">
+            <ImageButton
+                android:tag="1,0"
+                android:layout_weight="1"
+                android:layout_width="117dp"
+                android:layout_height="117dp"
+                android:onClick="btnClick"
+                android:scaleType="fitCenter"/>
+            <ImageButton
+                android:tag="1,1"
+                android:layout_weight="1"
+                android:layout_width="117dp"
+                android:layout_height="117dp"
+                android:onClick="btnClick"
+                android:scaleType="fitCenter"/>
+            <ImageButton
+                android:tag="1,2"
+                android:layout_weight="1"
+                android:layout_width="117dp"
+                android:layout_height="117dp"
+                android:onClick="btnClick"
+                android:scaleType="fitCenter"/>
+        </TableRow>
+        <TableRow
+            android:layout_weight="1">
+            <ImageButton
+                android:tag="2,0"
+                android:layout_weight="1"
+                android:layout_width="117dp"
+                android:layout_height="117dp"
+                android:onClick="btnClick"
+                android:scaleType="fitCenter"/>
+            <ImageButton
+                android:tag="2,1"
+                android:layout_weight="1"
+                android:layout_width="117dp"
+                android:layout_height="117dp"
+                android:onClick="btnClick"
+                android:scaleType="fitCenter"/>
+            <ImageButton
+                android:tag="2,2"
+                android:layout_weight="1"
+                android:layout_width="117dp"
+                android:layout_height="117dp"
+                android:onClick="btnClick"
+                android:scaleType="fitCenter"/>
+        </TableRow>
+
+    </TableLayout>
+
+</RelativeLayout>
